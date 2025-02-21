@@ -35,12 +35,13 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-1">
 
-        {{ Form::open([
-            'method' => 'post',
-            'class' => 'form-horizontal',
-            'id' => 'custom-report-form',
-            'url' => request()->routeIs('report-templates.edit') ? route('report-templates.update', $template) : '/reports/custom',
-        ]) }}
+        <form
+            method="POST"
+            action="{{ request()->routeIs('report-templates.edit') ? route('report-templates.update', $template) : '/reports/custom' }}"
+            accept-charset="UTF-8"
+            class="form-horizontal"
+            id="custom-report-form"
+        >
         {{csrf_field()}}
 
     <!-- Horizontal Form -->
@@ -581,15 +582,36 @@
 
               <div class="col-md-9 col-md-offset-3">
                   <label class="form-control">
-                    {{ Form::radio('deleted_assets', 'exclude_deleted', $template->radioValue('deleted_assets', 'exclude_deleted', true), ['aria-label'=>'deleted_assets', 'id'=>'deleted_assets_exclude_deleted'])}}
-                    {{ trans('general.exclude_deleted') }}
+                      <input
+                          name="deleted_assets"
+                          id="deleted_assets_exclude_deleted"
+                          type="radio"
+                          value="exclude_deleted"
+                          @checked($template->radioValue('deleted_assets', 'exclude_deleted', true))
+                          aria-label="deleted_assets"
+                      >
+                      {{ trans('general.exclude_deleted') }}
                   </label>
                   <label class="form-control">
-                    {{ Form::radio('deleted_assets', 'include_deleted', $template->radioValue('deleted_assets', 'include_deleted'), ['aria-label'=>'deleted_assets', 'id'=>'deleted_assets_include_deleted']) }}
+                      <input
+                          name="deleted_assets"
+                          id="deleted_assets_include_deleted"
+                          type="radio"
+                          value="include_deleted"
+                          @checked($template->radioValue('deleted_assets', 'include_deleted'))
+                          aria-label="deleted_assets"
+                      >
                     {{ trans('general.include_deleted') }}
                   </label>
                   <label class="form-control">
-                    {{ Form::radio('deleted_assets', 'only_deleted', $template->radioValue('deleted_assets', 'only_deleted'), ['aria-label'=>'deleted_assets','id'=>'deleted_assets_only_deleted']) }}
+                      <input
+                          name="deleted_assets"
+                          type="radio"
+                          id="deleted_assets_only_deleted"
+                          value="only_deleted"
+                          @checked($template->radioValue('deleted_assets', 'only_deleted'))
+                          aria-label="deleted_assets"
+                      >
                     {{ trans('general.only_deleted') }}
                   </label>
               </div>
@@ -610,7 +632,7 @@
                 @endif
             </div>
         </div> <!--/.box.box-default-->
-    {{ Form::close() }}
+        </form>
     </div>
 
     <!-- Saved Reports right column -->
